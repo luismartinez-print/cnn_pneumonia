@@ -1,0 +1,146 @@
+---
+Title: 'CNN for Pneumonia Detection'
+Author: 'Luis Martinez'
+output:
+  gmf
+---
+
+# Problem Overview
+
+Pneumonia detection via x-rays is a task for a convolutional neural network. 
+
+A convolution neural network works with convolutions, duhhh
+
+In reality it only means that it takes locality meaning the other points besides the point we are examining to learn, this is done with kernels, which is more like a filter.
+
+We pass filters through the whole image, not analyzing pixel by pixel but a grid of pixels could be 3X3 for example.
+
+The 'weights' that this model learns is those kernels themselves.
+
+This model does a couple of more things, but mainly that is the idea.
+
+# Data Augmentation
+
+The first thing that we have to see is an image itself, see how that looks like. 
+We can merge our data with the paths
+
+```{python}
+
+normal_1 = os.path.join(train_path, "normal")
+normal_2 = os.path.join(train_path, "normal2")
+sick_kiddo = os.path.join(train_path, "pneumonia")
+
+normal_images_path = []
+
+for (dir_path, _, files) in walk(normal_1):
+  for f in files:
+    normal_images_path.append(os.path.join(dir_path, f))
+
+for (dir_path, _, files) in walk(normal_2):
+  for f in files:
+    normal_images_path.append(os.path.join(dir_path, f))
+
+
+sick_kiddo_path = []
+
+for (dirpath, _, files) in walk(sick_kiddo):
+        for f in files:
+          sick_kiddo_path.append(os.path.join(dirpath, f))
+
+all_data = []
+for path in normal_images_path:
+  all_data.append((path, 0))
+
+for path in sick_kiddo_path:
+  all_data.append((path, 1))
+
+print(f"Total Normal: {len(normal_images_path)}")
+print(f"Total Pneumonia: {len(sick_kiddo_path)}")
+print(f"Total Dataset: {len(all_data)}")
+
+test_file_paths = []
+
+for root, dirs, files in os.walk(test_path):
+    # Sort the filenames BEFORE adding them to the list
+    for file in sorted(files):
+        if file.lower().endswith(('.jpg', '.jpeg', '.png')):
+            full_path = os.path.join(root, file)
+            test_file_paths.append(full_path)
+
+print(f"Total Test Images: {len(test_file_paths)}")
+
+```
+Total Normal: 1436
+Total Pneumonia: 1461
+Total Dataset: 2897
+Total Test Images: 200
+
+
+```{python}
+img = all_data[0][0]
+
+Image.open(img).convert('L')
+
+```
+
+**ADD Picture HERE**
+
+To have all the images on the size we convert the images with a Bicubic rizising. We can also see the difference between the Bilinear Bicubic and the low resolution. Since Xrays are in gray scale we want to have the most amount calrity in them.
+
+So imagine we have our original 224 X 224 images and we want to resize them to 64 X 64
+
+This is the results for both the nearest, bilinear and bicubic
+
+
+```{python}
+img_path = all_data[0][0]
+original_image = Image.open(img_path).convert('L')
+
+target_size = (64, 64)
+display_size = (256, 256)
+
+nearest = original_image.resize(target_size, resample=Image.NEAREST).resize(display_size, resample=Image.NEAREST)
+bilinear = original_image.resize(target_size, resample=Image.BILINEAR).resize(display_size, resample=Image.BILINEAR)
+bicubic = original_image.resize(target_size, resample=Image.BICUBIC).resize(display_size, resample=Image.BICUBIC)
+
+# 2. Plotting the comparison
+fig, ax = plt.subplots(ncols=3, figsize=(15, 5))
+
+ax[0].imshow(nearest, cmap='gray')
+ax[0].set_title("Nearest Neighbor (Don't even watch the game)")
+ax[0].axis('off')
+
+ax[1].imshow(bilinear, cmap='gray')
+ax[1].set_title("Bilinear\n(Pirate Streaming Service)")
+ax[1].axis('off')
+
+ax[2].imshow(bicubic, cmap='gray')
+ax[2].set_title("Bicubic\n(ESPN+)")
+ax[2].axis('off')
+
+plt.tight_layout()
+plt.show()
+```
+**Add here picture**
+
+This is the difference between the Bilinear and Bicubic.
+
+## CLAHE
+
+## TTA
+
+# Model Arquitecture
+
+## Convolutions
+
+## SB Blocks (Attention)
+
+# Training / Validation
+
+## Training Loop
+
+## Test Loop
+
+# Results
+
+## Vizzes
