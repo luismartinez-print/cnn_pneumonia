@@ -3,6 +3,8 @@ Title: 'CNN for Pneumonia Detection'
 Author: 'Luis Martinez'
 output:
   gmf
+execute:
+  eval: false
 ---
 
 # Problem Overview
@@ -61,7 +63,6 @@ print(f"Total Dataset: {len(all_data)}")
 test_file_paths = []
 
 for root, dirs, files in os.walk(test_path):
-    # Sort the filenames BEFORE adding them to the list
     for file in sorted(files):
         if file.lower().endswith(('.jpg', '.jpeg', '.png')):
             full_path = os.path.join(root, file)
@@ -127,9 +128,20 @@ This is the difference between the Bilinear and Bicubic.
 
 ## CLAHE
 
+X-rays images are mainly determined by the contrast between the shadows of black and white. Some x-rays have the "washed" feel to them, therefore we need to enhance the contrast of the images.
+
+However, the first step that we have to do is to limit this contrast to local areas, by utilizing filters as well. For this we use contrast limited adaptive histogram equalization. So we can take tiles of 8x8 is the default and then we set a clip limit to not highlight the noise as well. 
+
+
+
 ## TTA
 
+Another tecnique that was used for data augmentation was Time Testing Augmentation, meaning that in the moment of inference for both validation and test data the model looks at the image three times with different image transformations (mainly angle deviation)then predict it three times and averages the results.
+
+
 # Model Arquitecture
+
+For this task a convolutional neural network was created to process the images. The main structure of the model is...
 
 ## Convolutions
 
