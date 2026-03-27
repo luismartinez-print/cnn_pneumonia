@@ -101,7 +101,7 @@ img = all_data[0][0]
 Image.open(img).convert('L')
 ```
 
-![Chest x-ray](imgaes\xray.png)
+![Chest x-ray](imgaes/xray.png)
 
 To have all the images on the size we convert the images with a Bicubic
 rizising. We can also see the difference between the Bilinear Bicubic
@@ -147,7 +147,7 @@ plt.show()
 
 This is the difference between the Bilinear and Bicubic.
 
-![](imgaes\diff_bi_cu.png)
+![](imgaes/diff_bi_cu.png)
 
 ## CLAHE
 
@@ -178,7 +178,7 @@ class ApplyCLAHE(object):
         return Image.fromarray(img_clahe)
 ```
 
-![Applied CLAHE](imgaes\clahe.png)
+![Applied CLAHE](imgaes/clahe.png)
 
 ## TTA
 
@@ -378,7 +378,7 @@ same analogy to attention in transformer models for LLMs. We have word
 vectors and also we assign weights to this vectors to know which ones
 are more important, by using a simple Feed Forward Neural Net.
 
-![Mental Map of a SEB](imgaes\SE_Block_Zoomed.gv.png)
+![Mental Map of a SEB](imgaes/SE_Block_Zoomed.gv.png)
 
 ``` python
 class SEBlock(nn.Module):
@@ -404,7 +404,7 @@ class SEBlock(nn.Module):
 ```
 
 ![Difference between spatial and channel
-attention](imgaes\chann_spa.gif)
+attention](imgaes/chann_spa.gif)
 
 In this image we can first see how CLAHE works in real time by
 sharpening the constrast of the image. On the heat map it can be
@@ -553,12 +553,12 @@ the model has a light weight towards pneumonia since the goal was to
 maximize recall for pneumonia. This mean we really want to catch those
 pneumonia cases, even if that means that we flag normal as pneumonia.
 
-![](imgaes\confusion_matrix.png)
+![](imgaes/confusion_matrix.png)
 
 We can also see the the loss curve for the training and validation to
 check for overfitting and AUC curve for performance.
 
-![](imgaes\loss_curve.png)
+![](imgaes/loss_curve.png)
 
 Since the model is trained on random weights from scratch each run
 differs from another, another test we need to take care of is the
@@ -566,7 +566,7 @@ sensitivity test. For this test we run the the model multiple times and
 examine the difference between their AUC curve to check for the least
 amount of deviation.
 
-![](imgaes\model_sensitivity.png)
+![](imgaes/model_sensitivity.png)
 
 # Inference
 
@@ -619,14 +619,86 @@ for i in range(NUM_MODELS):
   all_run_histories.append(his)
 ```
 
-Total Images: 200 Predicted Pneumonia: 102 Predicted Normal: 98 shape:
-(200, 2) ┌─────┬────────────┐ │ Id ┆ Prediction │ │ — ┆ — │ │ i64 ┆ f32
-│ ╞═════╪════════════╡ │ 1 ┆ 0.103412 │ │ 2 ┆ 0.000288 │ │ 3 ┆ 0.984534
-│ │ 4 ┆ 0.000123 │ │ 5 ┆ 0.000755 │ │ … ┆ … │ │ 196 ┆ 0.999247 │ │ 197 ┆
-0.002015 │ │ 198 ┆ 0.000125 │ │ 199 ┆ 0.009003 │ │ 200 ┆ 0.002602 │
-└─────┴────────────┘ Total Images: 200 Predicted Pneumonia: 104
-Predicted Normal: 96 shape: (200, 2) ┌─────┬────────────┐ │ Id ┆
-Prediction │ │ — ┆ — │ │ i64 ┆ f32 │ ╞═════╪════════════╡ │ 1 ┆ 0.001069
-│ │ 2 ┆ 0.001772 │ │ 3 ┆ 0.990166 │ │ 4 ┆ 0.000167 │ │ 5 ┆ 0.001316 │ │
-… ┆ … │ │ 196 ┆ 0.999988 │ │ 197 ┆ 0.006907 │ │ 198 ┆ 0.000715 │ │ 199 ┆
-0.00694 │ │ 200 ┆ 0.028614 │ └─────┴────────────┘
+Total Images: 200
+
+Predicted Pneumonia: 102
+
+Predicted Normal: 98
+
+shape: (200, 2)
+
+┌─────┬────────────┐
+
+│ Id ┆ Prediction │
+
+│ — ┆ — │
+
+│ i64 ┆ f32 │
+
+╞═════╪════════════╡
+
+│ 1 ┆ 0.103412 │
+
+│ 2 ┆ 0.000288 │
+
+│ 3 ┆ 0.984534 │
+
+│ 4 ┆ 0.000123 │
+
+│ 5 ┆ 0.000755 │
+
+│ … ┆ … │
+
+│ 196 ┆ 0.999247 │
+
+│ 197 ┆ 0.002015 │
+
+│ 198 ┆ 0.000125 │
+
+│ 199 ┆ 0.009003 │
+
+│ 200 ┆ 0.002602 │
+
+└─────┴────────────┘
+
+Total Images: 200
+
+Predicted Pneumonia: 104
+
+Predicted Normal: 96
+
+shape: (200, 2)
+
+┌─────┬────────────┐
+
+│ Id ┆ Prediction │
+
+│ — ┆ — │
+
+│ i64 ┆ f32 │
+
+╞═════╪════════════╡
+
+│ 1 ┆ 0.001069 │
+
+│ 2 ┆ 0.001772 │
+
+│ 3 ┆ 0.990166 │
+
+│ 4 ┆ 0.000167 │
+
+│ 5 ┆ 0.001316 │
+
+│ … ┆ … │
+
+│ 196 ┆ 0.999988 │
+
+│ 197 ┆ 0.006907 │
+
+│ 198 ┆ 0.000715 │
+
+│ 199 ┆ 0.00694 │
+
+│ 200 ┆ 0.028614 │
+
+└─────┴────────────┘

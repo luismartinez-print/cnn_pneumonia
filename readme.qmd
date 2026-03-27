@@ -111,7 +111,7 @@ Image.open(img).convert('L')
 
 ```
 
-![Chest x-ray](imgaes\xray.png)
+![Chest x-ray](imgaes/xray.png)
 
 To have all the images on the size we convert the images with a Bicubic rizising. We can also see the difference between the Bilinear Bicubic and the low resolution. Since Xrays are in gray scale we want to have the most amount calrity in them.
 
@@ -153,7 +153,7 @@ plt.show()
 
 This is the difference between the Bilinear and Bicubic.
 
-![](imgaes\diff_bi_cu.png)
+![](imgaes/diff_bi_cu.png)
 
 ## CLAHE
 
@@ -179,7 +179,7 @@ class ApplyCLAHE(object):
 		return Image.fromarray(img_clahe)
 
 ```
-![Applied CLAHE](imgaes\clahe.png)
+![Applied CLAHE](imgaes/clahe.png)
 
 ## TTA
 
@@ -358,7 +358,7 @@ class MyCNN(nn.Module):
 
 The convolutional layers capture the spatial attention of the model, however it is missing the channel attention of the model. This means that not all kernels are equal, some are more informative than others. For example, the model learns that from the first 32 kernels in the first convolutional layer maybe feature map 2 gives more signal than feature map 10. By this we use a simple feed forward Neural Network to assign this weights to the feature maps. When we think about it is the same analogy to attention in transformer models for LLMs. We have word vectors and also we assign weights to this vectors to know which ones are more important, by using a simple Feed Forward Neural Net.
 
-![Mental Map of a SEB](imgaes\SE_Block_Zoomed.gv.png)
+![Mental Map of a SEB](imgaes/SE_Block_Zoomed.gv.png)
 
 ```{python}
 class SEBlock(nn.Module):
@@ -383,7 +383,7 @@ class SEBlock(nn.Module):
         return x * y
 ```
 
-![Difference between spatial and channel attention](imgaes\chann_spa.gif)
+![Difference between spatial and channel attention](imgaes/chann_spa.gif)
 
 In this image we can first see how CLAHE works in real time by sharpening the constrast of the image. On the heat map it can be observed how the model is learning where to look for pneumonia with spatial attention. In the weights since this is the 3rd Convolutional Layer we can observe how the model is giving a 0-1 importance to each chanel and learning what to look for.
 
@@ -518,15 +518,15 @@ return model, plot_data
 
 We can first visualize the confusion matrix of the model we can see that the model has a light weight towards pneumonia since the goal was to maximize recall for pneumonia. This mean we really want to catch those pneumonia cases, even if that means that we flag normal as pneumonia. 
 
-![](imgaes\confusion_matrix.png)
+![](imgaes/confusion_matrix.png)
 
 We can also see the the loss curve for the training and validation to check for overfitting and AUC curve for performance.
 
-![](imgaes\loss_curve.png)
+![](imgaes/loss_curve.png)
 
 Since the model is trained on random weights from scratch each run differs from another, another test we need to take care of is the sensitivity test. For this test we run the the model multiple times and examine the difference between their AUC curve to check for the least amount of deviation.
 
-![](imgaes\model_sensitivity.png)
+![](imgaes/model_sensitivity.png)
 
 # Inference
 
